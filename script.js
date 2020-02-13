@@ -45,6 +45,15 @@ const words = [
 let randomWord;
 let time = 10;
 let score = 0;
+let gameDifficulty =
+  localStorage.getItem('difficulty') !== null
+    ? localStorage.getItem('difficulty')
+    : 'medium';
+
+difficulty.value =
+  localStorage.getItem('difficulty') !== null
+    ? localStorage.getItem('difficulty')
+    : 'medium';
 
 text.focus();
 
@@ -90,7 +99,22 @@ text.addEventListener('input', e => {
     e.target.value = '';
     score++;
     scoreEl.innerHTML = score;
-    time += 5;
+    if (gameDifficulty === 'hard') {
+      time += 1;
+    } else if (gameDifficulty === 'medium') {
+      time += 3;
+    } else {
+      time += 5;
+    }
     updateTime();
   }
+});
+
+settingsBtn.addEventListener('click', function(e) {
+  settings.classList.toggle('hide');
+});
+
+settingsForm.addEventListener('change', e => {
+  gameDifficulty = e.target.value;
+  localStorage.setItem('difficulty', gameDifficulty);
 });
